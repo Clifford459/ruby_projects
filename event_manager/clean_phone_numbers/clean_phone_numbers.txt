@@ -1,0 +1,58 @@
+def clean_phone_numbers(homephone)
+  homephone.gsub!(/[()-." "]/, "")
+  if homephone.length == 10
+    homephone
+  elsif homephone.length < 10
+    homephone = "No phone"
+  elsif homephone.length == 11 && homephone[0] == "1"
+    homephone = homephone[1..-1]
+  elsif homephone.length == 11 && homephone[0] != "1"
+    homephone = "No phone"
+  else homephone.length > 11
+    homephone = "No phone"
+  end
+end
+
+contents = CSV.open(
+  "../clifford/event_manager/event_attendees.csv",
+  headers: true,
+  header_converters: :symbol
+)
+
+contents.each do |columns|
+  phone = clean_phone_numbers(columns[:homephone])
+  puts "#{phone}"
+end
+
+
+
+
+
+
+better logic
+
+def clean_phone_numbers(homephone)
+  homephone.gsub!(/[" "()-.]/, "")
+  if homephone.length > 11
+    homephone = "No phone"
+  elsif homephone.length < 10
+    homephone = "No phone"
+  elsif homephone.length == 11 && homephone[0] != "1"
+    homephone = "No phone"
+  elsif homephone.length == 11 && homephone[0] == "1"
+    homephone = homephone[1..-1]
+  else homephone.length == 10
+    homephone = homephone
+ end
+end
+
+contents = CSV.open(
+  "../clifford/event_manager/event_attendees.csv",
+  headers: true,
+  header_converters: :symbol
+)
+
+contents.each do |columns|
+  phone = clean_phone_numbers(columns[:homephone])
+  puts "#{phone}"
+end
